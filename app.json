@@ -3,6 +3,7 @@
     "name": "expo-project-new",
     "slug": "expo-project-new",
     "version": "1.0.0",
+    "scheme": "expo-project-new",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -24,6 +25,7 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
-    }
+    },
+    "plugins": ["expo-router"]
   }
 }
