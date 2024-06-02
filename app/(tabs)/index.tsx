@@ -1,15 +1,16 @@
-import "../global.css";
+import "../../global.css";
 import { StatusBar } from "expo-status-bar";
-import { Text, View } from "react-native";
+import { Button, Text, View } from "react-native";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { useEffect, useState } from "react";
 import { Box } from "@/components/ui/box";
+import { router } from "expo-router";
 
 export default function Page() {
   const [uiState, setUiState] = useState<"light" | "dark">("light");
 
   useEffect(() => {
-    setUiState("light");
+    setUiState("dark");
     // Get Ui State from AsyncStorage
   }, []);
   return (
@@ -21,6 +22,18 @@ export default function Page() {
           </Text>
           <Text className="text-typography-100"></Text>
         </Box>
+
+        <Button
+          onPress={() => {
+            router.push({
+              pathname: "/event-details/[id]",
+              params: {
+                id: "123",
+              },
+            });
+          }}
+          title={uiState === "light" ? "Dark" : "Light"}
+        />
         <StatusBar style="auto" />
       </View>
     </GluestackUIProvider>
