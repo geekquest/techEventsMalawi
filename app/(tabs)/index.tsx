@@ -5,6 +5,7 @@ import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { useEffect, useState } from "react";
 import { Box } from "@/components/ui/box";
 import { router } from "expo-router";
+import { Center } from "@/components/ui/center";
 
 export default function Page() {
   const [uiState, setUiState] = useState<"light" | "dark">("light");
@@ -15,14 +16,13 @@ export default function Page() {
   }, []);
   return (
     <GluestackUIProvider mode={uiState}>
-      <View className="flex-1 bg-primary-500 items-center justify-center">
+      <Center className="flex-1 bg-primary-500">
         <Box>
           <Text className="text-typography-100">
             Open up App.tsx to start working on your app!
           </Text>
           <Text className="text-typography-100"></Text>
         </Box>
-
         <Button
           onPress={() => {
             router.push({
@@ -35,7 +35,7 @@ export default function Page() {
           title={uiState === "light" ? "Dark" : "Light"}
         />
         <StatusBar style="auto" />
-      </View>
+      </Center>
     </GluestackUIProvider>
   );
 }
