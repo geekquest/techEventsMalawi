@@ -4,7 +4,7 @@ import axios from "axios";
 const initialState = {
   events: [],
   loading: false,
-  error: null,
+  error: null as string | null,
 };
 
 export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
@@ -22,7 +22,7 @@ const eventsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchEvents.pending, (state, action) => {
+      .addCase(fetchEvents.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -32,7 +32,7 @@ const eventsSlice = createSlice({
       })
       .addCase(fetchEvents.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.error.message || "Failed to fetch events";
       });
   },
 });
