@@ -10,7 +10,6 @@ const initialState = {
 export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
   try {
     const response = await axios.get("https://techeventsmw.com/api/all/events");
-    console.log(response.data.events);
     return response.data.events;
   } catch (error) {
     throw new Error("Failed to fetch events");

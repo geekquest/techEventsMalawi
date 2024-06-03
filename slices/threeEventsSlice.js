@@ -14,7 +14,6 @@ export const fetchThreeEvents = createAsyncThunk(
       const response = await axios.get(
         "https://techeventsmw.com/api/all/events"
       );
-      console.log(response.data.events);
       return response.data.threevents;
     } catch (error) {
       throw Error("Failed to fetch events");
