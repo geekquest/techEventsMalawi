@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchEvents } from "../slices/eventsSlice";
+import { fetchEvents } from "../redux/slices/eventsSlice";
 import Event from "../models/events.models";
 import { checkImageURL } from "../utils";
 import { router } from "expo-router";
@@ -12,12 +12,12 @@ import {
 } from "react-native";
 import { Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch } from "../store";
-import type { RootState } from "../store";
+import type { AppDispatch } from "../redux/store";
+import type { RootState } from "../redux/store";
 import { FlashList } from "@shopify/flash-list";
 import { EventItem } from "@/interfaces";
 import { EventRegister } from "react-native-event-listeners";
-import { fetchThreeEvents } from "@/slices/threeEventsSlice";
+import { fetchThreeEvents } from "@/redux/slices/threeEventsSlice";
 
 const Events = () => {
   const { events, loading, error } = useSelector(

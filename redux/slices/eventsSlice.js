@@ -24,12 +24,11 @@ const eventsSlice = createSlice({
     builder
       .addCase(fetchEvents.pending, (state, action) => {
         state.loading = true;
-        state.error = null; // Reset error when fetching starts
+        state.error = null;
       })
       .addCase(fetchEvents.fulfilled, (state, action) => {
         state.loading = false;
         state.events = action.payload;
-        // Update cache expiry on successful fetch (optional)
       })
       .addCase(fetchEvents.rejected, (state, action) => {
         state.loading = false;

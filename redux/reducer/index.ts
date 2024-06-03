@@ -1,7 +1,6 @@
-// rootReducer.ts
 import { combineReducers } from "redux";
 import eventsReducer from "../slices/eventsSlice";
-import threeEventsReducer from "@/slices/threeEventsSlice";
+import threeEventsReducer from "../slices/threeEventsSlice";
 
 const rootReducer = combineReducers({
   events: eventsReducer,

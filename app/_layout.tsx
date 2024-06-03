@@ -14,7 +14,7 @@ import { config } from "@gluestack-ui/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { EventRegister } from "react-native-event-listeners";
 import { Provider } from "react-redux";
-import store from "@/store";
+import store from "@/redux/store";
 
 const RootLayout = () => {
   const [uiState, setUiState] = useState<"light" | "dark">("light");
