@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "../redux/store";
 import type { RootState } from "../redux/store";
 import { FlashList } from "@shopify/flash-list";
-import { EventItem } from "@/interfaces";
+import { EventData, EventItem } from "@/interfaces";
 import { EventRegister } from "react-native-event-listeners";
 import { fetchThreeEvents } from "@/redux/slices/threeEventsSlice";
 
@@ -28,19 +28,21 @@ const Events = () => {
   const [eventName, setEventName] = useState("recommended");
 
   useEffect(() => {
+    dispatch(fetchEvents());
+
     const listener = EventRegister.addEventListener(
       "set-tab-name",
       (eventName: "recommended" | "upcoming") => {
         setEventName(eventName);
         switch (eventName) {
           case "recommended":
-            dispatch(fetchEvents()).finally(() => setRefreshing(false));
+            dispatch(fetchEvents());
             break;
           case "upcoming":
-            dispatch(fetchThreeEvents()).finally(() => setRefreshing(false));
+            dispatch(fetchThreeEvents());
             break;
           default:
-            dispatch(fetchEvents()).finally(() => setRefreshing(false));
+            dispatch(fetchEvents());
         }
       }
     );
@@ -49,7 +51,7 @@ const Events = () => {
         EventRegister.removeEventListener(listener);
       }
     };
-  }, [events, dispatch, eventName]);
+  }, []);
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -66,7 +68,7 @@ const Events = () => {
   };
 
   const renderItem = ({ item }: { item: EventItem }) => {
-    const event = new Event(item);
+    const event = new Event(item as EventData);
     const imageURL = `https://techeventsmw.com/storage/${event.image}`;
 
     const getDayFromDate = (dateString: string) => {
@@ -120,7 +122,7 @@ const Events = () => {
     return (
       <Box className="mx-4 bg-transparent">
         <Box
-          className="mb-3 h-[200px] rounded-3xl bg-gray-500 "
+          className="mb-2 h-[200px] rounded-3xl bg-gray-500 "
           style={{ overflow: "hidden" }}
         >
           <TouchableOpacity
@@ -151,14 +153,17 @@ const Events = () => {
               }}
             >
               <View className="flex-row justify-end w-full p-3">
-                <View className="flex-col items-center justify-center h-[40px] w-[40px] bg-white rounded-full">
+                <View className="flex-col items-center justify-center h-[40px] w-[40px] bg-secondary-950 rounded-full">
                   <Text
                     style={{ lineHeight: 12 }}
-                    className="text-[12px] font-light"
+                    className="text-[12px] font-light text-typography-0"
                   >
                     {day}
                   </Text>
-                  <Text style={{ lineHeight: 12 }} className="font-bold">
+                  <Text
+                    style={{ lineHeight: 12 }}
+                    className="font-bold text-typography-0"
+                  >
                     {month}
                   </Text>
                 </View>

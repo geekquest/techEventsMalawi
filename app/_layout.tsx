@@ -73,7 +73,7 @@ const RootLayout = () => {
                   headerShadowVisible: false,
                   headerTitle: () => (
                     <Text className=" text-secondary-0 font-medium">
-                      Settings
+                      Search
                     </Text>
                   ),
                 }}

@@ -27,7 +27,7 @@ const HeadTile = () => {
           }}
           className="items-center justify-center rounded-full h-[35px] w-[35px]"
         >
-          <Icon as={SearchIcon} className="text-typography-100 h-7 w-7" />
+          <Icon as={SearchIcon} className="text-typography-0 h-6 w-6" />
         </TouchableOpacity>
       </Box>
     </Box>

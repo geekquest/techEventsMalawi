@@ -1,6 +1,23 @@
-// models/Event.js
+import { EventData } from "@/interfaces";
+
 class Event {
-  constructor(eventData) {
+  id: number;
+  userId: number;
+  formId: number;
+  topic: string;
+  message: string;
+  image: string;
+  venue: string;
+  duration: string;
+  date: Date;
+  time: string;
+  active: boolean;
+  slug: string;
+  timeTo: string;
+  createdAt: Date;
+  updatedAt: Date;
+
+  constructor(eventData: EventData) {
     this.id = eventData.id;
     this.userId = eventData.user_id;
     this.formId = eventData.form_id;
@@ -18,14 +35,15 @@ class Event {
     this.updatedAt = new Date(eventData.updated_at);
   }
 
-  isActive() {
-    return this.active === 1;
+  isActive(): boolean {
+    return this.active === true;
   }
 
-  getFormattedTime() {
+  getFormattedTime(): string {
     return this.time;
   }
-  getFormattedDate() {
+
+  getFormattedDate(): string {
     return `${this.date.getFullYear()}-${(this.date.getMonth() + 1)
       .toString()
       .padStart(2, "0")}-${this.date.getDate().toString().padStart(2, "0")}`;
