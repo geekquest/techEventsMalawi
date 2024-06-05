@@ -1,3 +1,4 @@
+import AnimatedFab from "@/components/Animated.fab";
 import { Box } from "@/components/ui/box";
 import { useNavigation, useLocalSearchParams } from "expo-router";
 import React, { useLayoutEffect } from "react";
@@ -41,8 +42,8 @@ const EventDetails = () => {
   }, [navigation, title]);
 
   return (
-    <Box className="flex-1 bg-primary-950">
-      <Text>Event Details: {id}</Text>
+    <Box className="flex-1 h-screen flex-col items-end justify-end bg-primary-950">
+      <AnimatedFab />
     </Box>
   );
 };
