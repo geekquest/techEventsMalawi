@@ -25,6 +25,8 @@
     "@gluestack-ui/nativewind-utils": "^1.0.20",
     "@gluestack-ui/overlay": "^0.1.14",
     "@gluestack-ui/pressable": "latest",
+    "@gluestack-ui/radio": "latest",
+    "@gluestack-ui/select": "latest",
     "@gluestack-ui/spinner": "latest",
     "@gluestack-ui/themed": "^1.1.27",
     "@gluestack-ui/toast": "latest",
@@ -40,6 +42,8 @@
     "expo-location": "~17.0.1",
     "expo-router": "~3.5.14",
     "expo-status-bar": "~1.12.1",
+    "fast-xml-parser": "^4.4.0",
+    "formik": "^2.4.6",
     "nativewind": "^4.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -54,7 +58,8 @@
     "react-native-web": "~0.19.6",
     "react-navigation": "^5.0.0",
     "react-redux": "^9.1.2",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

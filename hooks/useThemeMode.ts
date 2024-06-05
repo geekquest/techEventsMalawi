@@ -1,13 +1,8 @@
-import { Box } from "@/components/ui/box";
-import HeadTile from "@/components/Head.tile";
-import { StatusBar } from "expo-status-bar";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { EventRegister } from "react-native-event-listeners";
-import HeadTileTabs from "@/components/Tabs";
-import Events from "@/components/Events";
 
-export default function Home() {
+const useThemeMode = () => {
   const [uiState, setUiState] = useState<"light" | "dark">("light");
 
   const getData = async () => {
@@ -37,12 +32,7 @@ export default function Home() {
     };
   }, []);
 
-  return (
-    <Box className="flex-1 bg-primary-950 flex-col items-start">
-      <HeadTile />
-      <HeadTileTabs />
-      <Events />
-      <StatusBar style={uiState} />
-    </Box>
-  );
-}
+  return uiState;
+};
+
+export default useThemeMode;

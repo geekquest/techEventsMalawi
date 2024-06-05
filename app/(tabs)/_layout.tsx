@@ -1,3 +1,4 @@
+import useThemeMode from "@/hooks/useThemeMode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Tabs } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -5,30 +6,20 @@ import { Text } from "react-native";
 import { EventRegister } from "react-native-event-listeners";
 
 const TabsLayout = () => {
-  const [uiState, setUiState] = useState<"light" | "dark">("light");
+  const uiState = useThemeMode();
   const [tabColor, setTabColor] = useState("white");
 
-  const getData = async () => {
-    try {
-      const stringValue = await AsyncStorage.getItem("colorMode");
-      if (stringValue !== null) {
-        const value = stringValue === "true";
-        setUiState(value ? "dark" : "light");
-        setTabColor(value ? "white" : "black");
-      }
-    } catch (e) {
-      setUiState("light");
-      setTabColor("white");
-    }
-  };
-
   useEffect(() => {
-    getData();
+    const updateTabColor = (themeMode: "light" | "dark") => {
+      setTabColor(themeMode === "dark" ? "white" : "black");
+    };
+
+    updateTabColor(uiState);
+
     const listener = EventRegister.addEventListener(
       "theme-changed",
       (themeMode: "light" | "dark") => {
-        setUiState(themeMode);
-        setTabColor(themeMode === "dark" ? "black" : "white");
+        updateTabColor(themeMode);
       }
     );
 
@@ -37,10 +28,6 @@ const TabsLayout = () => {
         EventRegister.removeEventListener(listener);
       }
     };
-  }, []);
-
-  useEffect(() => {
-    setTabColor(uiState === "dark" ? "white" : "black");
   }, [uiState]);
 
   return (

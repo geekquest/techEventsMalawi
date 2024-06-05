@@ -15,75 +15,62 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { EventRegister } from "react-native-event-listeners";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
+import { Box } from "@/components/ui/box";
+import useThemeMode from "@/hooks/useThemeMode";
 
 const RootLayout = () => {
-  const [uiState, setUiState] = useState<"light" | "dark">("light");
-
-  const getData = async () => {
-    try {
-      const stringValue = await AsyncStorage.getItem("colorMode");
-      if (stringValue !== null) {
-        const value = stringValue === "true";
-        setUiState(value ? "dark" : "light");
-      }
-    } catch (e) {
-      setUiState("light");
-    }
-  };
-
-  useEffect(() => {
-    getData();
-    const listener = EventRegister.addEventListener(
-      "theme-changed",
-      (themeMode: "light" | "dark") => {
-        setUiState(themeMode);
-      }
-    );
-    return () => {
-      if (typeof listener === "string") {
-        EventRegister.removeEventListener(listener);
-      }
-    };
-  }, []);
-
+  const uiState = useThemeMode();
   const colorScheme = useColorScheme();
 
   return (
-    <Provider store={store}>
-      <GluestackUIStyledProvider config={config}>
-        <GluestackUIProvider mode={uiState}>
-          <ThemeProvider
-            value={colorScheme === uiState ? DarkTheme : DefaultTheme}
-          >
-            <Stack>
-              <Stack.Screen
-                name="(tabs)"
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                options={{
-                  headerShown: true,
-                }}
-                name="event-details/[id]"
-              />
-              <Stack.Screen
-                options={{
-                  headerShadowVisible: false,
-                  headerTitle: () => (
-                    <Text className=" text-secondary-0 font-medium">
-                      Search
-                    </Text>
-                  ),
-                }}
-                name="search/index"
-              />
-            </Stack>
-          </ThemeProvider>
-        </GluestackUIProvider>
-      </GluestackUIStyledProvider>
-    </Provider>
+    <Box className={`flex-1 ${uiState === "light" ? "bg-black" : "bg-white"}`}>
+      <Provider store={store}>
+        <GluestackUIStyledProvider config={config}>
+          <GluestackUIProvider mode={uiState}>
+            <ThemeProvider
+              value={colorScheme === uiState ? DarkTheme : DefaultTheme}
+            >
+              <Stack>
+                <Stack.Screen
+                  name="(tabs)"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  options={{
+                    headerShown: true,
+                  }}
+                  name="event-details/[id]"
+                />
+                <Stack.Screen
+                  options={{
+                    headerShadowVisible: false,
+                    headerTitle: () => (
+                      <Text className=" text-secondary-0 font-medium">
+                        Search
+                      </Text>
+                    ),
+                  }}
+                  name="search/index"
+                />
+                <Stack.Screen
+                  options={{
+                    headerShadowVisible: false,
+                    headerTitle: () => (
+                      <Text className=" text-secondary-0 font-medium">
+                        Register
+                      </Text>
+                    ),
+                  }}
+                  name="register/index"
+                />
+              </Stack>
+            </ThemeProvider>
+          </GluestackUIProvider>
+        </GluestackUIStyledProvider>
+      </Provider>
+    </Box>
   );
 };
 

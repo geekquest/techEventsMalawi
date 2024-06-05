@@ -3,29 +3,19 @@ import { HStack } from "@/components/ui/hstack";
 import { Switch } from "@gluestack-ui/themed";
 import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
+import { Icon, MoonIcon, SunIcon } from "@/components/ui/icon";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { EventRegister } from "react-native-event-listeners";
-import { Icon, MoonIcon, SunIcon } from "@/components/ui/icon";
+import useThemeMode from "@/hooks/useThemeMode"; // Import the custom hook
 
-const Page = () => {
-  const [isToggled, setIsToggled] = useState(false);
+const Settings = () => {
+  const uiState = useThemeMode(); // Use the custom hook to get the theme mode
+  const [isToggled, setIsToggled] = useState(uiState === "dark");
 
   const storeData = async (value: boolean) => {
     try {
       const stringValue = value ? "true" : "false";
       await AsyncStorage.setItem("colorMode", stringValue);
-    } catch (e) {
-      setIsToggled(false);
-    }
-  };
-
-  const getData = async () => {
-    try {
-      const stringValue = await AsyncStorage.getItem("colorMode");
-      if (stringValue !== null) {
-        const value = stringValue === "true";
-        setIsToggled(value);
-      }
     } catch (e) {
       setIsToggled(false);
     }
@@ -38,8 +28,8 @@ const Page = () => {
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    setIsToggled(uiState === "dark");
+  }, [uiState]);
 
   return (
     <Box>
@@ -56,4 +46,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Settings;
