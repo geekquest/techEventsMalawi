@@ -1,10 +1,10 @@
-import useThemeMode from "@/hooks/useThemeMode";
-import { Tabs } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
-import { EventRegister } from "react-native-event-listeners";
+import { Text, BackHandler, Alert } from "react-native";
+import { Tabs, useFocusEffect } from "expo-router";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Ticket from "react-native-vector-icons/Fontisto";
+import { EventRegister } from "react-native-event-listeners";
+import useThemeMode from "@/hooks/useThemeMode";
 
 const TabsLayout = () => {
   const uiState = useThemeMode();
@@ -54,9 +54,8 @@ const TabsLayout = () => {
           ),
           headerShown: false,
         }}
-        name="index"
+        name="home/index"
       />
-
       <Tabs.Screen
         options={{
           tabBarShowLabel: false,

@@ -62,6 +62,18 @@ const RootLayout = () => {
                   }}
                   name="register/index"
                 />
+                <Stack.Screen
+                  options={{
+                    headerShadowVisible: false,
+                    headerBackground: () => (
+                      <Box className="flex-1 h-screen flex-col items-end justify-end bg-primary-950" />
+                    ),
+                    headerTitle: () => (
+                      <Text className=" text-secondary-0 font-medium"></Text>
+                    ),
+                  }}
+                  name="index"
+                />
               </Stack>
             </ThemeProvider>
           </GluestackUIProvider>
