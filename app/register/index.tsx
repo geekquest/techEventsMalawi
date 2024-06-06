@@ -27,7 +27,6 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Button, ButtonSpinner } from "@/components/ui/button";
 import { Text } from "react-native";
 import axios from "axios";
-import { Alert } from "react-native";
 import {
   useToast,
   Toast,
@@ -100,7 +99,7 @@ const Register = () => {
     name: "",
     email: "",
     phone: "",
-    gender: "1",
+    gender: "0",
     company: "",
     position: "",
     address: "",
@@ -288,7 +287,7 @@ const Register = () => {
                 onChange={(value) => setFieldValue("gender", value)}
               >
                 <VStack space="sm">
-                  <Radio size="sm" value="1">
+                  <Radio size="sm" value="0">
                     <RadioIndicator>
                       <RadioIcon
                         className={`${
@@ -305,7 +304,7 @@ const Register = () => {
                       Male
                     </RadioLabel>
                   </Radio>
-                  <Radio size="sm" value="2">
+                  <Radio size="sm" value="1">
                     <RadioIndicator>
                       <RadioIcon
                         className={`${
@@ -322,7 +321,7 @@ const Register = () => {
                       Female
                     </RadioLabel>
                   </Radio>
-                  <Radio size="sm" value="3">
+                  <Radio size="sm" value="2">
                     <RadioIndicator>
                       <RadioIcon
                         className={`${
@@ -336,10 +335,10 @@ const Register = () => {
                         uiState === "light" ? "text-white" : "text-[#000]"
                       }`}
                     >
-                      Them
+                      Other
                     </RadioLabel>
                   </Radio>
-                  <Radio size="sm" value="">
+                  <Radio size="sm" value="3">
                     <RadioIndicator>
                       <RadioIcon
                         className={`${

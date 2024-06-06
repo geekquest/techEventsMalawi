@@ -7,12 +7,9 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { Stack } from "expo-router";
-import { useEffect, useState } from "react";
 import { Text, useColorScheme } from "react-native";
 import { GluestackUIStyledProvider } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { EventRegister } from "react-native-event-listeners";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
 import { Box } from "@/components/ui/box";

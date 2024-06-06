@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "./ui/box";
 import { Avatar, AvatarBadge, AvatarFallbackText } from "./ui/avatar";
-import { Icon, SearchIcon, ShareIcon } from "./ui/icon";
+import { Icon, SearchIcon } from "./ui/icon";
 import { Text, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import * as Location from "expo-location";
@@ -28,12 +28,14 @@ const fetchAddress = async (
 
 const HeadTile = () => {
   const [address, setAddress] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setAddress("The Moon");
+        setLoading(false);
         return;
       }
 
@@ -44,6 +46,7 @@ const HeadTile = () => {
 
       const fetchedAddress = await fetchAddress(lat, lon);
       setAddress(fetchedAddress);
+      setLoading(false);
     })();
   }, []);
 
@@ -59,7 +62,7 @@ const HeadTile = () => {
         <Box className="flex-row items-center">
           <LocationPin name="location-pin" size={15} />
           <Text className="text-typography-0 text-xs">
-            {address || "The Moon"}
+            {loading ? "Loading..." : address || "The Moon"}
           </Text>
         </Box>
         <TouchableOpacity
