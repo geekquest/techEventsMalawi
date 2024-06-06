@@ -1,9 +1,10 @@
 import useThemeMode from "@/hooks/useThemeMode";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Tabs } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { EventRegister } from "react-native-event-listeners";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import Ticket from "react-native-vector-icons/Fontisto";
 
 const TabsLayout = () => {
   const uiState = useThemeMode();
@@ -41,12 +42,54 @@ const TabsLayout = () => {
     >
       <Tabs.Screen
         options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              name="home"
+              color={
+                focused ? (uiState === "dark" ? "black" : "white") : "grey"
+              }
+              size={focused ? 25 : 20}
+            />
+          ),
           headerShown: false,
         }}
         name="index"
       />
+
       <Tabs.Screen
         options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => (
+            <Ticket
+              name="ticket"
+              color={
+                focused ? (uiState === "dark" ? "black" : "white") : "grey"
+              }
+              size={focused ? 25 : 20}
+            />
+          ),
+          headerTitle: () => (
+            <Text className="text-secondary-0 font-medium">Tickets</Text>
+          ),
+          headerStyle: {
+            height: 70,
+          },
+        }}
+        name="tickets/index"
+      />
+      <Tabs.Screen
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              name="settings"
+              color={
+                focused ? (uiState === "dark" ? "black" : "white") : "grey"
+              }
+              size={focused ? 25 : 20}
+            />
+          ),
           headerTitle: () => (
             <Text className="text-secondary-0 font-medium">Settings</Text>
           ),

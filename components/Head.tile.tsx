@@ -48,7 +48,7 @@ const HeadTile = () => {
   }, []);
 
   return (
-    <Box className="h-[70px] w-full flex-row items-end">
+    <Box className="h-[70px] px-3 mb-2 w-full flex-row items-end">
       <Box className="flex-row w-full items-center justify-between">
         <Avatar className="bg-secondary-0 h-10 w-10 ml-2">
           <AvatarFallbackText className=" text-typography-950 text-xs">

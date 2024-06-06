@@ -1,11 +1,10 @@
 import React, { useState, useRef } from "react";
 import { Animated, Text, TouchableWithoutFeedback } from "react-native";
 import { AddIcon, EditIcon, Icon } from "./ui/icon";
-import MoreIcons from "react-native-vector-icons/AntDesign";
 import { Divider } from "./ui/divider";
 import { router } from "expo-router";
 
-const AnimatedFab = () => {
+const AnimatedFab = ({}) => {
   const [open, setOpen] = useState(false);
   const animation = useRef(new Animated.Value(0)).current;
 
@@ -79,6 +78,9 @@ const AnimatedFab = () => {
           onPress={() => {
             router.push({
               pathname: "/register",
+              params: {
+                type: "simple",
+              },
             });
             toggleMenu();
           }}
@@ -93,6 +95,12 @@ const AnimatedFab = () => {
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback
           onPress={() => {
+            router.push({
+              pathname: "/register",
+              params: {
+                type: "advanced",
+              },
+            });
             toggleMenu();
           }}
         >

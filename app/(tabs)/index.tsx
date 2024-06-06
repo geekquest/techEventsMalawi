@@ -38,10 +38,12 @@ export default function Home() {
   }, []);
 
   return (
-    <Box className="flex-1 bg-primary-950 flex-col items-start">
+    <Box className="flex-1 bg-primary-950 flex-col  items-start">
       <HeadTile />
       <HeadTileTabs />
-      <Events />
+      <Box className="mb-5 w-full">
+        <Events />
+      </Box>
       <StatusBar style={uiState} />
     </Box>
   );

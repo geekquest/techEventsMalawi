@@ -120,7 +120,7 @@ const Events = () => {
     const timeHour = removeSecondsFromTime(event.time);
 
     return (
-      <Box className="mx-4 bg-transparent">
+      <Box className="mx-3 bg-transparent">
         <Box
           className="mb-2 h-[200px] rounded-3xl bg-gray-500 "
           style={{ overflow: "hidden" }}

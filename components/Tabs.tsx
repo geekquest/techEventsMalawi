@@ -19,7 +19,7 @@ const HeadTileTabs = () => {
   };
 
   return (
-    <Box className="bg-transparent h-9">
+    <Box className="bg-transparent h-9 px-3 mb-1">
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <Box className="flex-row justify-between w-full">
           <TabsTileCard

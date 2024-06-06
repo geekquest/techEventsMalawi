@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, KeyboardAvoidingView, ScrollView } from "react-native";
+import React from "react";
+import { KeyboardAvoidingView, ScrollView } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import {
@@ -23,8 +23,11 @@ import {
   RadioLabel,
 } from "@/components/ui/radio";
 import useThemeMode from "@/hooks/useThemeMode";
+import { router, useLocalSearchParams } from "expo-router";
+import { Button } from "@/components/ui/button";
+import { Text } from "react-native";
 
-const validationSchema = Yup.object().shape({
+const simpleFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required").label("Name"),
   email: Yup.string()
     .email("Please enter valid email")
@@ -36,8 +39,44 @@ const validationSchema = Yup.object().shape({
     .matches(/^\d{10}$/, "Please enter a valid 10-digit phone number"),
   gender: Yup.string().required("Select one gender").label("Gender"),
 });
+const advancedFormValidationSchema = Yup.object().shape({
+  name: Yup.string()
+    .required("Name is required")
+    .matches(/^[a-zA-Z\s.,'-]+$/, "Name must be a valid string")
+    .label("Name"),
+  email: Yup.string()
+    .email("Please enter valid email")
+    .required("Email is required")
+    .label("Email"),
+  phone: Yup.string()
+    .required("Phone is required")
+    .label("Phone")
+    .matches(/^\d{10}$/, "Please enter a valid 10-digit phone number"),
+  gender: Yup.string().required("Select one gender").label("Gender"),
+  company: Yup.string()
+    .required("Company is required")
+    .matches(/^[a-zA-Z\s.,'-]+$/, "Company must be a valid string")
+    .label("Company"),
+  position: Yup.string()
+    .required("Position is required")
+    .matches(/^[a-zA-Z\s.,'-]+$/, "Position must be a valid string")
+    .label("Position"),
+});
 
 const Register = () => {
+  const { type } = useLocalSearchParams<{
+    type: string;
+  }>();
+
+  const simpleFormValues = {
+    name: "",
+    email: "",
+    phone: "",
+    gender: "male",
+    company: "",
+    position: "",
+  };
+
   const uiState = useThemeMode();
   return (
     <KeyboardAvoidingView
@@ -45,9 +84,16 @@ const Register = () => {
       behavior="padding"
     >
       <Formik
-        initialValues={{ name: "", email: "", phone: "", gender: "male" }}
-        validationSchema={validationSchema}
-        onSubmit={(values) => console.log(values)}
+        initialValues={simpleFormValues}
+        validationSchema={
+          type === "advanced"
+            ? simpleFormValidationSchema
+            : advancedFormValidationSchema
+        }
+        onSubmit={(values) => {
+          console.log(values);
+          router.push("/");
+        }}
       >
         {({
           setFieldValue,
@@ -58,8 +104,9 @@ const Register = () => {
           errors,
           touched,
         }) => (
-          <ScrollView className="px-2">
+          <ScrollView showsVerticalScrollIndicator={false} className="px-2">
             <FormControl
+              className="mb-2 mt-4"
               isDisabled={false}
               isInvalid={errors.name && touched.name ? true : false}
               isReadOnly={false}
@@ -89,6 +136,7 @@ const Register = () => {
               </VStack>
             </FormControl>
             <FormControl
+              className="mb-2"
               isDisabled={false}
               isInvalid={errors.email && touched.email ? true : false}
               isReadOnly={false}
@@ -118,6 +166,7 @@ const Register = () => {
               </VStack>
             </FormControl>
             <FormControl
+              className="mb-2"
               isDisabled={false}
               isInvalid={errors.phone && touched.phone ? true : false}
               isReadOnly={false}
@@ -147,6 +196,7 @@ const Register = () => {
               </VStack>
             </FormControl>
             <FormControl
+              className="mb-2"
               isInvalid={errors.gender && touched.gender ? true : false}
               isRequired={true}
             >
@@ -156,7 +206,7 @@ const Register = () => {
                 </FormControlLabelText>
               </FormControlLabel>
               <RadioGroup
-                className="my-2"
+                className="mb-2"
                 value={values.gender}
                 onChange={(value) => setFieldValue("gender", value)}
               >
@@ -236,8 +286,84 @@ const Register = () => {
                 <FormControlErrorText>{errors.gender}</FormControlErrorText>
               </FormControlError>
             </FormControl>
-
-            <Button onPress={() => handleSubmit()} title="Submit" />
+            {type === "simple" && (
+              <>
+                <FormControl
+                  isInvalid={errors.company && touched.company ? true : false}
+                  isDisabled={false}
+                  isReadOnly={false}
+                  isRequired={true}
+                  className="mb-2"
+                >
+                  <VStack space="xs">
+                    <FormControlLabel className="mb-1">
+                      <FormControlLabelText className="text-typography-0">
+                        Company
+                      </FormControlLabelText>
+                    </FormControlLabel>
+                    <Input>
+                      <InputField
+                        className="text-typography-0"
+                        value={values.company}
+                        onChangeText={handleChange("company")}
+                        autoCorrect={false}
+                        onBlur={handleBlur("company")}
+                        placeholder="Where do you work?"
+                        type="text"
+                      />
+                    </Input>
+                    <FormControlError>
+                      <FormControlErrorIcon size={"md"} as={AlertCircleIcon} />
+                      <FormControlErrorText>
+                        {errors.company}
+                      </FormControlErrorText>
+                    </FormControlError>
+                  </VStack>
+                </FormControl>
+                <FormControl
+                  isDisabled={false}
+                  isReadOnly={false}
+                  isRequired={true}
+                  className="mb-5"
+                  isInvalid={errors.position && touched.position ? true : false}
+                >
+                  <VStack space="xs">
+                    <FormControlLabel className="mb-1">
+                      <FormControlLabelText className="text-typography-0">
+                        Position
+                      </FormControlLabelText>
+                    </FormControlLabel>
+                    <Input>
+                      <InputField
+                        className="text-typography-0"
+                        value={values.position}
+                        onChangeText={handleChange("position")}
+                        autoCorrect={false}
+                        onBlur={handleBlur("position")}
+                        placeholder="Your position"
+                        type="text"
+                      />
+                    </Input>
+                    <FormControlError>
+                      <FormControlErrorIcon size={"md"} as={AlertCircleIcon} />
+                      <FormControlErrorText>
+                        {errors.position}
+                      </FormControlErrorText>
+                    </FormControlError>
+                  </VStack>
+                </FormControl>
+              </>
+            )}
+            <Button
+              variant="solid"
+              className="mb-5 bg-secondary-0"
+              action="secondary"
+              onPress={() => {
+                handleSubmit();
+              }}
+            >
+              <Text className="text-typography-950">Submit</Text>
+            </Button>
           </ScrollView>
         )}
       </Formik>
