@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { KeyboardAvoidingView, ScrollView } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -24,10 +24,16 @@ import {
 } from "@/components/ui/radio";
 import useThemeMode from "@/hooks/useThemeMode";
 import { router, useLocalSearchParams } from "expo-router";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonSpinner } from "@/components/ui/button";
 import { Text } from "react-native";
 import axios from "axios";
 import { Alert } from "react-native";
+import {
+  useToast,
+  Toast,
+  ToastTitle,
+  ToastDescription,
+} from "@/components/ui/toast";
 
 const simpleFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required").label("Name"),
@@ -78,10 +84,13 @@ const advancedFormValidationSchema = Yup.object().shape({
 });
 
 const Register = () => {
+  const toast = useToast();
   const { type, form_id } = useLocalSearchParams<{
     type: string;
     form_id: string;
   }>();
+
+  const [processing, setprocessing] = useState(false);
 
   let event_id = "";
 
@@ -116,26 +125,50 @@ const Register = () => {
             : advancedFormValidationSchema
         }
         onSubmit={(values) => {
-          console.log(values);
-          // Push to url with axios
           axios
             .post("https://techeventsmw.com/api/event/register", values)
             .then(() => {
-              router.push("/");
+              toast.show({
+                placement: "bottom",
+                render: ({ id }) => {
+                  const toastId = "toast-" + id;
+                  return (
+                    <Toast nativeID={toastId} action="success" variant="solid">
+                      <VStack>
+                        <ToastTitle>Let's goo!🔥🔥</ToastTitle>
+                        <ToastDescription>
+                          Your seat is reserved. We've sent you an email for
+                          more details.
+                        </ToastDescription>
+                      </VStack>
+                    </Toast>
+                  );
+                },
+              });
+              setTimeout(() => {
+                setprocessing(false);
+                router.push("/");
+              }, 5000);
             })
             .catch((e) => {
-              console.log(e.response);
-              Alert.alert(
-                "Error",
-                "Something went wrong, please try again later",
-                [
-                  {
-                    text: "OK",
-                    onPress: () => console.log("OK Pressed"),
-                  },
-                ],
-                { cancelable: false }
-              );
+              setprocessing(false);
+              toast.show({
+                placement: "bottom",
+                render: ({ id }) => {
+                  const toastId = "toast-" + id;
+                  return (
+                    <Toast nativeID={toastId} action="error" variant="solid">
+                      <VStack>
+                        <ToastTitle>Oops❗️❗️</ToastTitle>
+                        <ToastDescription>
+                          There was an error processing your request. Please try
+                          again later.
+                        </ToastDescription>
+                      </VStack>
+                    </Toast>
+                  );
+                },
+              });
             });
         }}
       >
@@ -500,7 +533,11 @@ const Register = () => {
                 handleSubmit();
               }}
             >
-              <Text className="text-typography-950">Submit</Text>
+              {processing ? (
+                <ButtonSpinner />
+              ) : (
+                <Text className="text-typography-950">Submit</Text>
+              )}
             </Button>
           </ScrollView>
         )}
