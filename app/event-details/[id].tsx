@@ -43,7 +43,7 @@ const EventDetails = () => {
 
   return (
     <Box className="flex-1 h-screen flex-col items-end justify-end bg-primary-950">
-      <AnimatedFab />
+      <AnimatedFab form_id={id || ""} />
     </Box>
   );
 };

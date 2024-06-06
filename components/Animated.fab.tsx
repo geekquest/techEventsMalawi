@@ -4,7 +4,7 @@ import { AddIcon, EditIcon, Icon } from "./ui/icon";
 import { Divider } from "./ui/divider";
 import { router } from "expo-router";
 
-const AnimatedFab = ({}) => {
+const AnimatedFab = ({ form_id }: { form_id: string }) => {
   const [open, setOpen] = useState(false);
   const animation = useRef(new Animated.Value(0)).current;
 
@@ -80,6 +80,7 @@ const AnimatedFab = ({}) => {
               pathname: "/register",
               params: {
                 type: "simple",
+                form_id: form_id,
               },
             });
             toggleMenu();
@@ -99,6 +100,7 @@ const AnimatedFab = ({}) => {
               pathname: "/register",
               params: {
                 type: "advanced",
+                form_id: form_id,
               },
             });
             toggleMenu();

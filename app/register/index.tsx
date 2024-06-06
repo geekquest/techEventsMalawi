@@ -26,6 +26,8 @@ import useThemeMode from "@/hooks/useThemeMode";
 import { router, useLocalSearchParams } from "expo-router";
 import { Button } from "@/components/ui/button";
 import { Text } from "react-native";
+import axios from "axios";
+import { Alert } from "react-native";
 
 const simpleFormValidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required").label("Name"),
@@ -61,20 +63,43 @@ const advancedFormValidationSchema = Yup.object().shape({
     .required("Position is required")
     .matches(/^[a-zA-Z\s.,'-]+$/, "Position must be a valid string")
     .label("Position"),
+  address: Yup.string()
+    .required("Address is required")
+    .matches(/^[a-zA-Z\s.,'-]+$/, "Address must be a valid string")
+    .label("Address"),
+  city: Yup.string()
+    .required("City is required")
+    .matches(/^[a-zA-Z\s.,'-]+$/, "City must be a valid string")
+    .label("City"),
+  country: Yup.string()
+    .required("Country is required")
+    .matches(/^[a-zA-Z\s.,'-]+$/, "Country must be a valid string")
+    .label("Country"),
 });
 
 const Register = () => {
-  const { type } = useLocalSearchParams<{
+  const { type, form_id } = useLocalSearchParams<{
     type: string;
+    form_id: string;
   }>();
+
+  let event_id = "";
+
+  type === "simple" ? (event_id = "2") : (event_id = "1");
 
   const simpleFormValues = {
     name: "",
     email: "",
     phone: "",
-    gender: "male",
+    gender: "1",
     company: "",
     position: "",
+    address: "",
+    city: "",
+    country: "",
+    form_id: form_id,
+    event_id: event_id,
+    action: "save",
   };
 
   const uiState = useThemeMode();
@@ -92,7 +117,26 @@ const Register = () => {
         }
         onSubmit={(values) => {
           console.log(values);
-          router.push("/");
+          // Push to url with axios
+          axios
+            .post("https://techeventsmw.com/api/event/register", values)
+            .then(() => {
+              router.push("/");
+            })
+            .catch((e) => {
+              console.log(e.response);
+              Alert.alert(
+                "Error",
+                "Something went wrong, please try again later",
+                [
+                  {
+                    text: "OK",
+                    onPress: () => console.log("OK Pressed"),
+                  },
+                ],
+                { cancelable: false }
+              );
+            });
         }}
       >
         {({
@@ -211,7 +255,7 @@ const Register = () => {
                 onChange={(value) => setFieldValue("gender", value)}
               >
                 <VStack space="sm">
-                  <Radio size="sm" value="male">
+                  <Radio size="sm" value="1">
                     <RadioIndicator>
                       <RadioIcon
                         className={`${
@@ -228,7 +272,7 @@ const Register = () => {
                       Male
                     </RadioLabel>
                   </Radio>
-                  <Radio size="sm" value="female">
+                  <Radio size="sm" value="2">
                     <RadioIndicator>
                       <RadioIcon
                         className={`${
@@ -245,7 +289,7 @@ const Register = () => {
                       Female
                     </RadioLabel>
                   </Radio>
-                  <Radio size="sm" value="them">
+                  <Radio size="sm" value="3">
                     <RadioIndicator>
                       <RadioIcon
                         className={`${
@@ -262,7 +306,7 @@ const Register = () => {
                       Them
                     </RadioLabel>
                   </Radio>
-                  <Radio size="sm" value="other">
+                  <Radio size="sm" value="">
                     <RadioIndicator>
                       <RadioIcon
                         className={`${
@@ -352,11 +396,105 @@ const Register = () => {
                     </FormControlError>
                   </VStack>
                 </FormControl>
+                <FormControl
+                  isInvalid={errors.address && touched.address ? true : false}
+                  isDisabled={false}
+                  isReadOnly={false}
+                  isRequired={true}
+                  className="mb-2"
+                >
+                  <VStack space="xs">
+                    <FormControlLabel className="mb-1">
+                      <FormControlLabelText className="text-typography-0">
+                        Address
+                      </FormControlLabelText>
+                    </FormControlLabel>
+                    <Input>
+                      <InputField
+                        className="text-typography-0"
+                        value={values.address}
+                        onChangeText={handleChange("address")}
+                        autoCorrect={false}
+                        onBlur={handleBlur("address")}
+                        placeholder="Enter your address"
+                        type="text"
+                      />
+                    </Input>
+                    <FormControlError>
+                      <FormControlErrorIcon size={"md"} as={AlertCircleIcon} />
+                      <FormControlErrorText>
+                        {errors.address}
+                      </FormControlErrorText>
+                    </FormControlError>
+                  </VStack>
+                </FormControl>
+                <FormControl
+                  isInvalid={errors.city && touched.city ? true : false}
+                  isDisabled={false}
+                  isReadOnly={false}
+                  isRequired={true}
+                  className="mb-2"
+                >
+                  <VStack space="xs">
+                    <FormControlLabel className="mb-1">
+                      <FormControlLabelText className="text-typography-0">
+                        City
+                      </FormControlLabelText>
+                    </FormControlLabel>
+                    <Input>
+                      <InputField
+                        className="text-typography-0"
+                        value={values.city}
+                        onChangeText={handleChange("city")}
+                        autoCorrect={false}
+                        onBlur={handleBlur("city")}
+                        placeholder="Which city do you live in?"
+                        type="text"
+                      />
+                    </Input>
+                    <FormControlError>
+                      <FormControlErrorIcon size={"md"} as={AlertCircleIcon} />
+                      <FormControlErrorText>{errors.city}</FormControlErrorText>
+                    </FormControlError>
+                  </VStack>
+                </FormControl>
+                <FormControl
+                  isInvalid={errors.city && touched.city ? true : false}
+                  isDisabled={false}
+                  isReadOnly={false}
+                  isRequired={true}
+                  className="mb-2"
+                >
+                  <VStack space="xs">
+                    <FormControlLabel className="mb-1">
+                      <FormControlLabelText className="text-typography-0">
+                        Country
+                      </FormControlLabelText>
+                    </FormControlLabel>
+                    <Input>
+                      <InputField
+                        className="text-typography-0"
+                        value={values.country}
+                        onChangeText={handleChange("country")}
+                        autoCorrect={false}
+                        onBlur={handleBlur("country")}
+                        placeholder="Which country do you live in?"
+                        type="text"
+                      />
+                    </Input>
+                    <FormControlError>
+                      <FormControlErrorIcon size={"md"} as={AlertCircleIcon} />
+                      <FormControlErrorText>
+                        {errors.country}
+                      </FormControlErrorText>
+                    </FormControlError>
+                  </VStack>
+                </FormControl>
               </>
             )}
             <Button
               variant="solid"
-              className="mb-5 bg-secondary-0"
+              className="mb-5 mt-3 bg-secondary-0"
               action="secondary"
               onPress={() => {
                 handleSubmit();
