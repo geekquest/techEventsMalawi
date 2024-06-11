@@ -38,9 +38,7 @@ const EventDetails = () => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text className="text-secondary-0 font-medium">
-          {title || "event title"}
-        </Text>
+        <Text className="text-secondary-0 font-medium">{title || "title"}</Text>
       ),
     });
   }, [navigation, title]);
