@@ -36,6 +36,7 @@ const RootLayout = () => {
                 />
                 <Stack.Screen
                   options={{
+                    headerShadowVisible: false,
                     headerShown: true,
                   }}
                   name="event-details/[id]"

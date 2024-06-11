@@ -116,7 +116,7 @@ const AnimatedFab = ({ form_id }: { form_id: string }) => {
         </TouchableWithoutFeedback>
         <Animated.View
           style={rotation}
-          className="rounded-full flex items-center justify-center z-20 h-[42px] w-[42px]"
+          className="rounded-full flex pl-[3px] items-center justify-center z-20 h-[42px] w-[42px]"
         >
           {open ? (
             <Icon as={AddIcon} className="text-typography-950 w-7 h-7" />

@@ -16,29 +16,20 @@ import { FormControlLabelText } from "@gluestack-ui/themed";
 import { FormControlErrorIcon } from "@gluestack-ui/themed";
 import useThemeMode from "@/hooks/useThemeMode";
 import { router, useLocalSearchParams } from "expo-router";
-import { Button, ButtonSpinner } from "@/components/ui/button";
+import { Button, ButtonSpinner, ButtonText } from "@/components/ui/button";
 import { Text } from "react-native";
-import {
-  useToast,
-  Toast,
-  ToastTitle,
-  ToastDescription,
-} from "@/components/ui/toast";
+import { useToast } from "@/components/ui/toast";
 import { auth } from "../firebaseConfig";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Box } from "@/components/ui/box";
 
 const Login = () => {
-  const toast = useToast();
+  const [register, setRegister] = useState(false);
   const [processing, setProcessing] = useState(false);
   const simpleFormValues = {
     password: "",
     email: "",
   };
-  const uiState = useThemeMode();
 
   const simpleFormValidationSchema = Yup.object().shape({
     password: Yup.string().required("Password is required").label("Password"),
@@ -62,6 +53,9 @@ const Login = () => {
             .then(() => {
               console.log(values);
               setProcessing(false);
+              if (register == true) {
+                //
+              }
               router.push("/(tabs)/home");
             })
             .catch((error) => {
@@ -149,6 +143,70 @@ const Login = () => {
                 </FormControlError>
               </VStack>
             </FormControl>
+            {/* {register == true ? (
+              <FormControl
+                className="mb-2"
+                isDisabled={false}
+                isInvalid={errors.email && touched.email ? true : false}
+                isReadOnly={false}
+                isRequired={true}
+              >
+                <VStack space="xs">
+                  <FormControlLabel className="mb-1">
+                    <FormControlLabelText className="text-typography-0">
+                      Email Address
+                    </FormControlLabelText>
+                  </FormControlLabel>
+                  <Input>
+                    <InputField
+                      className="text-typography-0"
+                      value={values.email}
+                      onChangeText={handleChange("email")}
+                      autoCorrect={false}
+                      onBlur={handleBlur("email")}
+                      placeholder="john.doe@example.com"
+                      type="text"
+                    />
+                  </Input>
+                  <FormControlError>
+                    <FormControlErrorIcon size={"md"} as={AlertCircleIcon} />
+                    <FormControlErrorText>{errors.email}</FormControlErrorText>
+                  </FormControlError>
+                </VStack>
+              </FormControl>
+            ) : (
+              <FormControl
+                className="mb-2"
+                isDisabled={false}
+                isInvalid={errors.email && touched.email ? true : false}
+                isReadOnly={false}
+                isRequired={true}
+              >
+                <VStack space="xs">
+                  <FormControlLabel className="mb-1">
+                    <FormControlLabelText className="text-typography-0">
+                      Email Address
+                    </FormControlLabelText>
+                  </FormControlLabel>
+                  <Input>
+                    <InputField
+                      className="text-typography-0"
+                      value={values.email}
+                      onChangeText={handleChange("email")}
+                      autoCorrect={false}
+                      onBlur={handleBlur("email")}
+                      placeholder="john.doe@example.com"
+                      type="text"
+                    />
+                  </Input>
+                  <FormControlError>
+                    <FormControlErrorIcon size={"md"} as={AlertCircleIcon} />
+                    <FormControlErrorText>{errors.email}</FormControlErrorText>
+                  </FormControlError>
+                </VStack>
+              </FormControl>
+            )} */}
+            {/* Registration forms UI/ I wanna split components */}
 
             <Button
               variant="solid"
@@ -161,9 +219,17 @@ const Login = () => {
               {processing ? (
                 <ButtonSpinner />
               ) : (
-                <Text className="text-typography-950">Submit</Text>
+                <ButtonText className="text-typography-950">
+                  Let's Go!
+                </ButtonText>
               )}
             </Button>
+            <Box className="flex-row">
+              <Text className="text-typography-0 text-xs">
+                Don't have an account yet?
+              </Text>
+              <Text className="pl-1 text-blue-500 text-xs">Register</Text>
+            </Box>
           </ScrollView>
         )}
       </Formik>
