@@ -10,6 +10,7 @@ const Search = () => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      headerTitleAlign: "left",
       headerTitle: () => (
         <Box className="flex-row items-center">
           {/* Adjust the ml- value as needed */}
