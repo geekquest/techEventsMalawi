@@ -9,4 +9,3 @@
   },
   "include": ["**/*.ts", "**/*.tsx", "types/svg.d.ts"]
 }
-

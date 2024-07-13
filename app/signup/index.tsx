@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { KeyboardAvoidingView, Pressable, ScrollView } from "react-native";
-import { Formik, FormikProps } from "formik";
+import { KeyboardAvoidingView, ScrollView } from "react-native";
 import * as Yup from "yup";
 import {
   AlertCircleIcon,
@@ -14,21 +13,23 @@ import {
 import { VStack } from "@/components/ui/vstack";
 import { FormControlLabelText } from "@gluestack-ui/themed";
 import { FormControlErrorIcon } from "@gluestack-ui/themed";
-import useThemeMode from "@/hooks/useThemeMode";
 import { router, useLocalSearchParams } from "expo-router";
 import { Button, ButtonSpinner, ButtonText } from "@/components/ui/button";
 import { Text } from "react-native";
-import { useToast } from "@/components/ui/toast";
-import { auth } from "../firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { Box } from "@/components/ui/box";
+import { Formik, FormikProps } from "formik";
 
 interface FormValues {
   password: string;
   email: string;
 }
 
-const Login = () => {
+const SignUp = () => {
   const [register, setRegister] = useState(false);
   const [processing, setProcessing] = useState(false);
   const simpleFormValues = {
@@ -54,14 +55,14 @@ const Login = () => {
         validationSchema={simpleFormValidationSchema}
         onSubmit={(values: FormValues) => {
           setProcessing(true);
-          signInWithEmailAndPassword(auth, values.email, values.password)
+          createUserWithEmailAndPassword(auth, values.email, values.password)
             .then(() => {
               console.log(values);
               setProcessing(false);
               if (register == true) {
                 //
               }
-              router.push("/(tabs)/home");
+              router.push("/index");
             })
             .catch((error) => {
               console.log(values);
@@ -85,7 +86,7 @@ const Login = () => {
           >
             <Box>
               <Text className="text-secondary-0 font-medium text-2xl">
-                Login
+                SignUp
               </Text>
             </Box>
             <FormControl
@@ -160,22 +161,10 @@ const Login = () => {
                 <ButtonSpinner />
               ) : (
                 <ButtonText className="text-typography-950">
-                  Let's Go!
+                  Get Started!
                 </ButtonText>
               )}
             </Button>
-            <Box className="flex-row">
-              <Text className="text-typography-0 text-xs">
-                Don't have an account yet?
-              </Text>
-              <Pressable
-                onPress={() => {
-                  router.push("/signup");
-                }}
-              >
-                <Text className="pl-1 text-blue-500 text-xs">Register</Text>
-              </Pressable>
-            </Box>
           </ScrollView>
         )}
       </Formik>
@@ -183,4 +172,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

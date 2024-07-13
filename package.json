@@ -21,6 +21,7 @@
     "@gluestack-ui/divider": "latest",
     "@gluestack-ui/form-control": "latest",
     "@gluestack-ui/icon": "latest",
+    "@gluestack-ui/input": "latest",
     "@gluestack-ui/link": "latest",
     "@gluestack-ui/nativewind-utils": "^1.0.20",
     "@gluestack-ui/overlay": "^0.1.14",
@@ -61,8 +62,7 @@
     "react-navigation": "^5.0.0",
     "react-redux": "^9.1.2",
     "tailwindcss": "^3.4.1",
-    "yup": "^1.4.0",
-    "@gluestack-ui/input": "latest"
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
